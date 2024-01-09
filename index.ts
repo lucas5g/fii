@@ -7,14 +7,19 @@ const app = express()
 const port = 3000
 
 async function main(){
-  const url = 'https://www.fundsexplorer.com.br/funds/cpts11'
+  const url = 'https://www.fundsexplorer.com.br/funds/game11'
   const { data } = await axios.get(url)
 
   const $ = cheerio.load(data)
 
-  const document = $('h1')
+  const name = $('h1').text()
+  const indicators = $('.indicators__box > p > b ')
+  const dividentYieldYear = $(indicators[2]).text().replace(/\s+/g, '')
+  const dividentCurrentYield = $(indicators[8]).text()
+  const lastDivident =  $(indicators[7]).text()
+//  .replace(/\s+/g, ' ')
 
- console.log(document.text()) 
+ console.log({name, dividentYieldYear, dividentCurrentYield, lastDivident}) 
 }
 
 main()
