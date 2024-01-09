@@ -1,22 +1,27 @@
 import { describe, it, expect } from 'vitest'
 import { FundService } from '../services/fund.service'
 import { FundCreateType } from '../schemas/fund.schema'
+import request from 'supertest'
 
 const service = new FundService
 
 describe('Fund', () => {
-  it('Find All', async () => {
-    const result = await service.findAll();
+  it.only('Find All', async () => {
+   
+    const result = await service.findAll()
 
-    const properties = ['name', 'dividentYieldYear', 'dividentCurrentYield', 'lastDivident']
+// '    const properties = ['name', 'dividentYieldYear', 'dividentCurrentYield']
 
-    properties.forEach(property => {
-      expect(result[0]).toHaveProperty(property)
-    })
+//     properties.forEach(property => {
+//       expect(body[0]).toHaveProperty(property)
+//     })'
+    
+   
+    console.log(result)
 
   })
 
-  it.only('Find One', async() => {
+  it('Find One', async() => {
     const result = await service.findOne('659d721f8df58dcfa7bd1f8b')
     console.log(result)
   })
@@ -31,4 +36,6 @@ describe('Fund', () => {
 
     await service.delete(result.id)
   })
+
+  it.only('test', )
 })

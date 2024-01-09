@@ -4,38 +4,63 @@ import { FundCreateType } from '@/schemas/fund.schema'
 import { prisma } from "../utils/prisma"
 import { Exception } from "../utils/exception"
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library"
-import { Fund } from "@prisma/client"
 
 const exception = new Exception()
+
+interface IFund {
+  name: string 
+  dividentYieldYear: string
+}
 
 export class FundService {
   async findAll() {
 
-    const funds = []
+    const funds:IFund[] = []
 
-    for (let fund of ['game11', 'cpts11']) {
+    const test = [
+      'game11',
+      'cpts11', 'xpml11',
+      'patc11',
+      'xplg11', 'htmx11', 'hglg11'
+    ]
+
+
+    for (let fund of test) {
 
       const url = `https://www.fundsexplorer.com.br/funds/${fund}`
-      const { data } = await axios(url)
+      const response = await fetch(url, {
+        next: { revalidate: 43200 }
+      })
+      const data = await response.text()
 
 
       const $ = cheerio.load(data)
 
       const name = $('h1').text()
-      const indicators = $('.indicators__box > p > b ')
-      const dividentYieldYear = $(indicators[2]).text().replace(/\s+/g, '')
-      const dividentCurrentYield = $(indicators[8]).text()
-      const lastDivident = $(indicators[7]).text()
+      const dividentYieldYear = $('#dividends-container > div:nth-child(3) > div:nth-child(4) > p > b').text()
+      const dividentCurrentYield = $('#dividends-container > div:nth-child(3) > div:nth-child(2) > p > b').text()
+      const segment = $('.basicInformation__grid__box:nth-child(6) > p > b').text()
+      const appreciationHigh = $('.quotation >  div > div.quotation__grid__box.alta:nth-child(4) > p:nth-child(1)').text()
+      const appreciationLow = '-' + $('.quotation >  div > div.quotation__grid__box.baixa:nth-child(4) > p:nth-child(1)').text()
 
-      funds.push({ name, dividentYieldYear, dividentCurrentYield, lastDivident })
+      const appreciation = appreciationHigh || appreciationLow
 
+      funds.push({
+        name, dividentYieldYear,
+        //  dividentCurrentYield,
+        // appreciation,
+        // segment,
+        // lastDivident
+      })
     }
+    return funds  
+      .sort((a, b) => a.dividentYieldYear > b.dividentYieldYear)
+      // .sort((a, b) => a.dividentYieldYear.localeCompare(b.dividentYieldYear))
 
-    return funds
 
   }
 
-  findOne(id:string){
+  findOne(id: string) {
     return id
   }
 
@@ -47,9 +72,9 @@ export class FundService {
     }
   }
 
-  delete(id:string){
+  delete(id: string) {
     return prisma.fund.delete({
-      where:{id}
+      where: { id }
     })
   }
 }
