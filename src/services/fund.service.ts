@@ -18,10 +18,11 @@ export class FundService {
     const funds:IFund[] = []
 
     const test = [
-      'game11',
-      'cpts11', 'xpml11',
-      'patc11',
-      'xplg11', 'htmx11', 'hglg11'
+      // 'game11',
+      // 'cpts11', 'xpml11',
+      // 'patc11',
+      // 'xplg11', 'htmx11', 'hglg11',
+      'htmx11'
     ]
 
 
@@ -37,7 +38,9 @@ export class FundService {
       const $ = cheerio.load(data)
 
       const name = $('h1').text()
-      const dividentYieldYear = $('#dividends-container > div:nth-child(3) > div:nth-child(4) > p > b').text()
+      const dividentYieldYear = ($('#dividends-container > div:nth-child(3) > div:nth-child(4) > p > b').text().replace('',''))
+
+
       const dividentCurrentYield = $('#dividends-container > div:nth-child(3) > div:nth-child(2) > p > b').text()
       const segment = $('.basicInformation__grid__box:nth-child(6) > p > b').text()
       const appreciationHigh = $('.quotation >  div > div.quotation__grid__box.alta:nth-child(4) > p:nth-child(1)').text()
