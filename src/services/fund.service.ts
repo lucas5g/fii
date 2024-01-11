@@ -57,7 +57,7 @@ export class FundService {
       })
     }
     return funds  
-      .sort((a, b) => a.dividentYieldYear > b.dividentYieldYear)
+      // .sort((a, b) => a.dividentYieldYear > b.dividentYieldYear)
       // .sort((a, b) => a.dividentYieldYear.localeCompare(b.dividentYieldYear))
 
 
