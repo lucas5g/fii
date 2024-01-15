@@ -13,5 +13,5 @@ datasource db {
 model Fund {
   id   String @id @default(auto()) @map("_id") @db.ObjectId
   name String @unique
-
+ 
 }

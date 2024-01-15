@@ -1,0 +1,20 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { FundService } from './fund.service';
+
+describe('FundService', () => {
+  let service: FundService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [FundService],
+    }).compile();
+
+    service = module.get<FundService>(FundService);
+  });
+
+  it('find all', async () => {
+    const result = await service.findAll();
+
+    console.log(result);
+  });
+});
