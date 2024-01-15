@@ -27,16 +27,16 @@ export class FundController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.fundService.findOne(+id);
+    return this.fundService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFundDto: UpdateFundDto) {
-    return this.fundService.update(+id, updateFundDto);
+    return this.fundService.update(id, updateFundDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.fundService.remove(+id);
+    return this.fundService.remove(id);
   }
 }

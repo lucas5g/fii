@@ -2,11 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { CreateFundDto } from './dto/create-fund.dto';
 import { UpdateFundDto } from './dto/update-fund.dto';
 import * as cheerio from 'cheerio';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class FundService {
+  constructor(private prisma: PrismaService) {}
   create(createFundDto: CreateFundDto) {
-    return 'This action adds a new fund';
+    return this.prisma.fund.create({
+      data: createFundDto,
+    });
   }
 
   async findAll() {
@@ -28,22 +32,22 @@ export class FundService {
         .text()
         .replace('', '');
 
-      const dividentCurrentYield = $(
-        '#dividends-container > div:nth-child(3) > div:nth-child(2) > p > b',
-      ).text();
-      const segment = $(
-        '.basicInformation__grid__box:nth-child(6) > p > b',
-      ).text();
-      const appreciationHigh = $(
-        '.quotation >  div > div.quotation__grid__box.alta:nth-child(4) > p:nth-child(1)',
-      ).text();
-      const appreciationLow =
-        '-' +
-        $(
-          '.quotation >  div > div.quotation__grid__box.baixa:nth-child(4) > p:nth-child(1)',
-        ).text();
+      // const dividentCurrentYield = $(
+      //   '#dividends-container > div:nth-child(3) > div:nth-child(2) > p > b',
+      // ).text();
+      // const segment = $(
+      //   '.basicInformation__grid__box:nth-child(6) > p > b',
+      // ).text();
+      // const appreciationHigh = $(
+      //   '.quotation >  div > div.quotation__grid__box.alta:nth-child(4) > p:nth-child(1)',
+      // ).text();
+      // const appreciationLow =
+      //   '-' +
+      //   $(
+      //     '.quotation >  div > div.quotation__grid__box.baixa:nth-child(4) > p:nth-child(1)',
+      //   ).text();
 
-      const appreciation = appreciationHigh || appreciationLow;
+      // const appreciation = appreciationHigh || appreciationLow;
 
       scrapings.push({
         name,
@@ -58,15 +62,22 @@ export class FundService {
     return scrapings;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} fund`;
+  findOne(id: string) {
+    return this.prisma.fund.findUniqueOrThrow({
+      where: { id },
+    });
   }
 
-  update(id: number, updateFundDto: UpdateFundDto) {
-    return `This action updates a #${id} fund`;
+  update(id: string, updateFundDto: UpdateFundDto) {
+    return this.prisma.fund.update({
+      where: { id },
+      data: updateFundDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} fund`;
+  remove(id: string) {
+    return this.prisma.fund.delete({
+      where: { id },
+    });
   }
 }
