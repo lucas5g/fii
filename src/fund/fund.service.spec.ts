@@ -36,6 +36,8 @@ describe('FundService', () => {
   it('find all', async () => {
     const result = await service.findAll();
 
+    console.log(result);
+
     ['dividentYieldYear', 'name'].forEach((property) => {
       expect(result[0]).toHaveProperty(property);
     });

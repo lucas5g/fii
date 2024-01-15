@@ -14,7 +14,10 @@ export class FundService {
   }
 
   async findAll() {
-    const funds = ['htmx11', 'cpts11'];
+    const funds = [
+      'htmx11',
+      // 'cpts11'
+    ];
 
     const scrapings = [];
 
@@ -28,9 +31,7 @@ export class FundService {
       const name = $('h1').text();
       const dividentYieldYear = $(
         '#dividends-container > div:nth-child(3) > div:nth-child(4) > p > b',
-      )
-        .text()
-        .replace('', '');
+      ).text();
 
       // const dividentCurrentYield = $(
       //   '#dividends-container > div:nth-child(3) > div:nth-child(2) > p > b',
