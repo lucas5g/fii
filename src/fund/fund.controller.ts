@@ -11,7 +11,7 @@ import { FundService } from './fund.service';
 import { CreateFundDto } from './dto/create-fund.dto';
 import { UpdateFundDto } from './dto/update-fund.dto';
 
-@Controller('fund')
+@Controller('funds')
 export class FundController {
   constructor(private readonly fundService: FundService) {}
 

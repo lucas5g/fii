@@ -33,7 +33,7 @@ describe('FundService', () => {
     id = result.id;
   });
 
-  it('find all', async () => {
+  it.only('find all', async () => {
     const result = await service.findAll();
 
     console.log(result);
